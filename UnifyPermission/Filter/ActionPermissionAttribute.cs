@@ -14,6 +14,7 @@ using UnifyPermission.Models;
 using UnifyPermission.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using UnifyPermission.Result;
+using UnifyPermission.Controllers.Base;
 
 namespace UnifyPermission.Filter
 {
