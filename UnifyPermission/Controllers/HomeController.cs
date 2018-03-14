@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UnifyPermission.Attributes;
+using UnifyPermission.Controllers.Base;
 using UnifyPermission.Filter;
 using UnifyPermission.Models;
 
