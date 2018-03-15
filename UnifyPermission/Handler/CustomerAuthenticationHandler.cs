@@ -11,7 +11,8 @@ using UnifyPermission.Models;
 
 namespace UnifyPermission.Handler
 {
-    public class CustomerAuthenticationHandler : IAuthenticationHandler
+    //IAuthenticationRequestHandler
+    public class CustomerAuthenticationHandler : IAuthenticationRequestHandler
     {
         private readonly HttpContext context;
         public CustomerAuthenticationHandler(IHttpContextAccessor httpContextAccessor)
@@ -45,6 +46,11 @@ namespace UnifyPermission.Handler
         public async Task ForbidAsync(AuthenticationProperties properties)
         {
             await Task.CompletedTask;
+        }
+
+        public async Task<bool> HandleRequestAsync()
+        {
+            return await Task.FromResult(false);
         }
 
         public async Task InitializeAsync(AuthenticationScheme scheme, HttpContext context)

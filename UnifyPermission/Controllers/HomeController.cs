@@ -9,6 +9,7 @@ using UnifyPermission.Attributes;
 using UnifyPermission.Controllers.Base;
 using UnifyPermission.Filter;
 using UnifyPermission.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace UnifyPermission.Controllers
 {
@@ -16,6 +17,11 @@ namespace UnifyPermission.Controllers
     //[ModuleNo("001",ModuleName ="auth")]
     public class HomeController : AuthorizationController
     {
+        private readonly IServiceCollection services;
+        public HomeController(IServiceCollection services)
+        {
+            this.services = services;
+        }
         [ActionNo("Index")]
         public IActionResult Index()
         {
@@ -43,6 +49,12 @@ namespace UnifyPermission.Controllers
         public IActionResult UserInfo()
         {
             return Json(HttpContext.User);
+        }
+
+        public IActionResult GetServices()
+        {
+
+            return Json(services.Select(p=>new { InterfaceType=p.ServiceType.FullName,ServiceType=p.ImplementationType!=null?p.ImplementationType.FullName:p.ImplementationInstance.GetType().FullName }), new Newtonsoft.Json.JsonSerializerSettings());
         }
     }
 }

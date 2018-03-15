@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using UnifyPermission.Attributes;
@@ -14,6 +15,11 @@ namespace UnifyPermission.Controllers
 {
     public class LoginController : AuthorizationController
     {
+        private readonly IAuthenticationService service;
+        public LoginController(IAuthenticationService service)
+        {
+            this.service = service;
+        }
         // GET: /<controller>/
         public IActionResult Index()
         {

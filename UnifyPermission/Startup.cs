@@ -28,8 +28,11 @@ namespace UnifyPermission
             {
                 options.AddScheme<CustomerAuthenticationHandler>("Customer", "LfgGroup");
                 options.DefaultScheme = "Customer";
+                options.DefaultChallengeScheme = "Customer";
+                options.DefaultForbidScheme = "Customer";
             });
             services.AddMvc();
+            services.AddSingleton(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
