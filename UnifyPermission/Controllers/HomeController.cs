@@ -48,7 +48,7 @@ namespace UnifyPermission.Controllers
 
         public IActionResult UserInfo()
         {
-            return Json(HttpContext.User);
+            return Json(HttpContext.User.Identities);
         }
 
         public IActionResult GetServices()

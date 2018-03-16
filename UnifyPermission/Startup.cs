@@ -41,6 +41,11 @@ namespace UnifyPermission
             {
                 options.LoginPath = "/Login/Login";
                 options.ClaimsIssuer = "Token";
+                options.AccessDeniedPath = "/Home/Index";
+                options.Events.OnValidatePrincipal = context =>
+                {
+                    return Task.CompletedTask;
+                };
             });
             services.AddMvc();
             services.AddSingleton(services);    

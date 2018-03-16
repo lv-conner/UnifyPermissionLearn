@@ -36,8 +36,11 @@ namespace UnifyPermission.Controllers
             //HttpContext.Response.Cookies.Append("Token", JsonConvert.SerializeObject(model));
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name,"Token")
+                new Claim(ClaimTypes.Name,"Tim"),
+                new Claim(ClaimTypes.NameIdentifier,Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.Email,"141412@163.com")
             };
+            //Authentication Type is necessary, if not it,IsAuthenticate will be false;!!!important
             var claimsIdentity = new ClaimsIdentity(claims,"Token");
             var prop = new AuthenticationProperties()
             {
@@ -50,8 +53,7 @@ namespace UnifyPermission.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            var prop = new AuthenticationProperties();
-            await service.SignOutAsync(HttpContext, "Token", prop);
+            await service.SignOutAsync(HttpContext, "Token", null);
             return Redirect("/Login/Login");
         }
     }
