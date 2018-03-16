@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -28,11 +30,29 @@ namespace UnifyPermission.Controllers
 
         [HttpGet]
         [Anonymous]
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
-            var model = new UserModel() { Name = "tim", Password = "123456" };
-            HttpContext.Response.Cookies.Append("Token", JsonConvert.SerializeObject(model));
+            //var model = new UserModel() { Name = "tim", Password = "123456" };
+            //HttpContext.Response.Cookies.Append("Token", JsonConvert.SerializeObject(model));
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name,"Token")
+            };
+            var claimsIdentity = new ClaimsIdentity(claims,"Token");
+            var prop = new AuthenticationProperties()
+            {
+                ExpiresUtc = DateTime.UtcNow.AddDays(1)
+            };
+            var user = new ClaimsPrincipal(claimsIdentity);
+            await HttpContext.SignInAsync(user);
             return View();
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            var prop = new AuthenticationProperties();
+            await service.SignOutAsync(HttpContext, "Token", prop);
+            return Redirect("/Login/Login");
         }
     }
 }

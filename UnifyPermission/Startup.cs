@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,15 +25,25 @@ namespace UnifyPermission
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<SystemOptions>(Configuration.GetSection("SysetmConfig"));
-            services.AddAuthentication(options =>
+            //services.AddAuthentication(options =>
+            //{
+            //    options.AddScheme<CustomerAuthenticationHandler>("Customer", "LfgGroup");
+            //    options.DefaultScheme = "Customer";
+            //    options.DefaultChallengeScheme = "Customer";
+            //    options.DefaultForbidScheme = "Customer";
+            //}).AddCookie("TokenCustomer",option=> {
+            //});
+            services.AddAuthentication(options=> 
             {
-                options.AddScheme<CustomerAuthenticationHandler>("Customer", "LfgGroup");
-                options.DefaultScheme = "Customer";
-                options.DefaultChallengeScheme = "Customer";
-                options.DefaultForbidScheme = "Customer";
+                options.DefaultAuthenticateScheme = "Token";
+                options.DefaultSignInScheme = "Token";
+            }).AddCookie("Token",options =>
+            {
+                options.LoginPath = "/Login/Login";
+                options.ClaimsIssuer = "Token";
             });
             services.AddMvc();
-            services.AddSingleton(services);
+            services.AddSingleton(services);    
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
