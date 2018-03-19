@@ -12,6 +12,8 @@ using UnifyPermission.Models;
 namespace UnifyPermission.Handler
 {
     //IAuthenticationRequestHandler
+    //IAuthenticationRequestHandler 实现此接口，将会捕获所有的请求，进行处理
+    //IAuthenticationHandler 实现此接口，只有该处理器被定义为默认或者请求符合对应的模式才会捕获到请求进行处理
     public class CustomerAuthenticationHandler : IAuthenticationRequestHandler
     {
         private readonly HttpContext context;
