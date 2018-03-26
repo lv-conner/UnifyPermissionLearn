@@ -38,7 +38,8 @@ namespace UnifyPermission.Controllers
             {
                 new Claim(ClaimTypes.Name,"Tim"),
                 new Claim(ClaimTypes.NameIdentifier,Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Email,"141412@163.com")
+                new Claim(ClaimTypes.Email,"141412@163.com"),
+                new Claim("Sex","Man")
             };
             //Authentication Type is necessary, if not it,IsAuthenticate will be false;!!!important
             var claimsIdentity = new ClaimsIdentity(claims,"Token");

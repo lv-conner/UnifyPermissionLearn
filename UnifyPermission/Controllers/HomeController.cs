@@ -10,6 +10,7 @@ using UnifyPermission.Controllers.Base;
 using UnifyPermission.Filter;
 using UnifyPermission.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace UnifyPermission.Controllers
 {
@@ -44,6 +45,14 @@ namespace UnifyPermission.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public IActionResult AddCookie()
+        {
+            HttpContext.Response.Cookies.Append("CurrentTime", DateTime.UtcNow.ToString(), new Microsoft.AspNetCore.Http.CookieOptions()
+            {
+                Expires = DateTime.Now.AddHours(2),
+            });
+            return Content("Add Cookie Successful");
         }
 
         public IActionResult UserInfo()

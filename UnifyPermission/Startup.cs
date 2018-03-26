@@ -33,20 +33,32 @@ namespace UnifyPermission
             //    options.DefaultForbidScheme = "Customer";
             //}).AddCookie("TokenCustomer",option=> {
             //});
-            services.AddAuthentication(options=> 
-            {
-                options.DefaultAuthenticateScheme = "Token";
-                options.DefaultSignInScheme = "Token";
-            }).AddCookie("Token",options =>
-            {
-                options.LoginPath = "/Login/Login";
-                options.ClaimsIssuer = "Token";
-                options.AccessDeniedPath = "/Home/Index";
-                options.Events.OnValidatePrincipal = context =>
+            //services.AddAuthentication(options=> 
+            //{
+            //    options.DefaultAuthenticateScheme = "Token";
+            //    options.DefaultSignInScheme = "Token";
+            //    options.AddScheme("Customer", builder =>
+            //     {
+            //         builder.HandlerType = typeof(CustomerAuthenticationHandler);
+            //         builder.DisplayName = "Customer";
+            //     });
+            //}).AddCookie("Token",options =>
+            //{
+            //    options.LoginPath = "/Login/Login";
+            //    options.ClaimsIssuer = "Token";
+            //    options.AccessDeniedPath = "/Home/Index";
+            //    options.Events.OnValidatePrincipal = context =>
+            //    {
+            //        return Task.CompletedTask;
+            //    };
+            //});
+
+            //standard cookie authentication
+            services.AddAuthentication("TokenAuth")
+                .AddCookie("TokenAuth", options => 
                 {
-                    return Task.CompletedTask;
-                };
-            });
+                    options.LoginPath = "/Login/Login";
+                });
             services.AddMvc();
             services.AddSingleton(services);    
         }
@@ -66,6 +78,7 @@ namespace UnifyPermission
 
             app.UseStaticFiles();
             app.UseAuthentication();
+           
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
