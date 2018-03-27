@@ -74,14 +74,13 @@ namespace UnifyPermission.Filter
         /// <returns></returns>
         public async Task OnUnAuthorization(AuthorizationFilterContext context)
         {
-            
-            
             if (context.HttpContext.Request.Headers["X-Requested-With"].FirstOrDefault() != null && context.HttpContext.Request.Headers["X-Requested-With"].ToString() == ("xmlhttprequest"))
             {
                 context.Result = new UnauthorizationJsonResult(new { code="401",message="No Authencation" });
             }
             else
             {
+                //!!important ChanllengeResult will send chanllenge to login path and add redirect url to query parameter
                 context.Result = new ChallengeResult();
                 //await context.HttpContext.ChallengeAsync();
                 //context.Result = new ChallengeResult("/Login/Login");

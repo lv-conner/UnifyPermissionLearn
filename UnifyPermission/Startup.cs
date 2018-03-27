@@ -58,6 +58,8 @@ namespace UnifyPermission
                 .AddCookie("TokenAuth", options => 
                 {
                     options.LoginPath = "/Login/Login";
+                    //LogoutPath to check should redirect to 
+                    options.LogoutPath = "/Login/Logout";
                 });
             services.AddMvc();
             services.AddSingleton(services);    

@@ -32,8 +32,7 @@ namespace UnifyPermission.Controllers
         [Anonymous]
         public async Task<IActionResult> Login()
         {
-            //var model = new UserModel() { Name = "tim", Password = "123456" };
-            //HttpContext.Response.Cookies.Append("Token", JsonConvert.SerializeObject(model));
+           
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name,"Tim"),
@@ -42,20 +41,44 @@ namespace UnifyPermission.Controllers
                 new Claim("Sex","Man")
             };
             //Authentication Type is necessary, if not it,IsAuthenticate will be false;!!!important
-            var claimsIdentity = new ClaimsIdentity(claims,"Token");
+            var claimsIdentity = new ClaimsIdentity(claims, "TokenAuth");
             var prop = new AuthenticationProperties()
             {
-                ExpiresUtc = DateTime.UtcNow.AddDays(1)
+                ExpiresUtc = DateTime.UtcNow.AddDays(1),
+                IsPersistent = true
             };
             var user = new ClaimsPrincipal(claimsIdentity);
-            await HttpContext.SignInAsync(user);
+            await HttpContext.SignInAsync(user, prop);
+            //var property = new AuthenticationProperties()
+            //{
+            //    AllowRefresh = true,
+            //    ExpiresUtc = DateTime.UtcNow.AddHours(2),
+            //    IsPersistent = true,
+            //};
+            //ClaimsIdentity identity = new ClaimsIdentity("TokenAuth");
+            //identity.AddClaim(new Claim(ClaimTypes.Email, "234123@qq.com"));
+            //identity.AddClaim(new Claim(ClaimTypes.Name, "Tim"));
+            //ClaimsPrincipal user = new ClaimsPrincipal(identity);
+            //await HttpContext.SignInAsync(user, property);
+
             return View();
         }
 
         public async Task<IActionResult> Logout()
         {
-            await service.SignOutAsync(HttpContext, "Token", null);
-            return Redirect("/Login/Login");
+            var authenticationFeature =  HttpContext.Features.Get<IAuthenticationFeature>();
+            var prop = new AuthenticationProperties()
+            {
+                RedirectUri = "/Login/AfterLogout"
+            };
+            await HttpContext.SignOutAsync(prop);
+            return View();
+        }
+
+        [Anonymous]
+        public IActionResult AfterLogout()
+        {
+            return View();
         }
     }
 }
