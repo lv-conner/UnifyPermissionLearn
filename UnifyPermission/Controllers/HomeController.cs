@@ -11,6 +11,7 @@ using UnifyPermission.Filter;
 using UnifyPermission.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Logging;
 
 namespace UnifyPermission.Controllers
 {
@@ -19,8 +20,10 @@ namespace UnifyPermission.Controllers
     public class HomeController : AuthorizationController
     {
         private readonly IServiceCollection services;
-        public HomeController(IServiceCollection services)
+        private readonly ILogger logger;
+        public HomeController(IServiceCollection services,ILoggerFactory loggerFactory)
         {
+            this.logger = loggerFactory.CreateLogger<HomeController>();
             this.services = services;
         }
         [ActionNo("Index")]
