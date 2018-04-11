@@ -8,8 +8,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using UnifyPermission.Filter;
 using UnifyPermission.Handler;
 using UnifyPermission.Models;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace UnifyPermission
 {
@@ -63,7 +65,16 @@ namespace UnifyPermission
                     //LogoutPath to check should redirect to 
                     options.LogoutPath = "/Login/Logout";
                 });
-            services.AddMvc();
+            //Filter的注册方式，决定了Filter的提供方式的不同，如果使用Add方法进行注册，将会通过类型激活的方式进行提供
+            //使用AddService的方式注册，将会通过依赖注入的方式进行提供。两者的提供方式中，构造函数均可以注入参数。
+            //两种方法的不同之处在通过依赖注入方式提供的实例，可以提供其生命周期的管理，比如提供单实例
+            services.AddMvc(options=>
+            {
+                //options中的Filters将作为全局过滤器。
+                //options.Filters.AddService(typeof(LoggerFilter));
+                options.Filters.Add(typeof(LoggerFilter));
+            });
+            services.AddSingleton<LoggerFilter,LoggerFilter>();
             services.AddSingleton(services);    
         }
 
