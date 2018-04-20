@@ -71,10 +71,13 @@ namespace UnifyPermission
             services.AddMvc(options =>
             {
                 //options中的Filters将作为全局过滤器。
+                //一次种方式添加过滤器，将通过DI容器提供。意味着，如果以依赖注入的形式提供过滤器，那么就一定要将过滤器作为一种服务添加到DI容器中。
                 //options.Filters.AddService(typeof(LoggerFilter));
-                options.Filters.Add(typeof(LoggerFilter));
+                //以此种方式添加全局过滤器，过滤器将通过类型激活的方式提供。
+                //options.Filters.Add(typeof(LoggerFilter));
             });
-            services.AddSingleton<LoggerFilter, LoggerFilter>();
+            //将过滤器作为单例提供
+            services.AddSingleton<LoggerFilter>();
             services.AddSingleton(services);
         }
 

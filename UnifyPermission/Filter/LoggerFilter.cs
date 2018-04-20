@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace UnifyPermission.Filter
 {
+    /// <summary>
+    /// 此种过滤器适用于全局过滤的使用。
+    /// </summary>
     public class LoggerFilter : IActionFilter
     {
         private readonly ILoggerFactory factory;

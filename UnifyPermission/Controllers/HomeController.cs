@@ -16,6 +16,8 @@ using Microsoft.Extensions.Logging;
 namespace UnifyPermission.Controllers
 {
     [ActionPermission]
+    [Filter(typeof(LoggerFilter))]  //通用特性过滤器实现。
+    //[Logger]
     //[ModuleNo("001",ModuleName ="auth")]
     public class HomeController : AuthorizationController
     {
