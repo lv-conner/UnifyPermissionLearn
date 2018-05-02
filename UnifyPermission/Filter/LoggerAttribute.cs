@@ -21,7 +21,7 @@ namespace UnifyPermission.Filter
 
 
     //特性过滤器，由于特性过滤器的特点。因此在使用特性过滤器的时候，如果需要依赖某些服务。则应该通过此种方式实现特性过滤。
-
+    //特性过滤器，由于应用特性的时候，不能通过构造函数注入服务。因此如果需要通过构造函数为特性注入某些服务，测可以通过应用过滤器工厂来应用。
 
     //通用特性过滤器
     public class FilterAttribute : Attribute, IFilterFactory
